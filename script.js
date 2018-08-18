@@ -45,13 +45,23 @@ var RecipeApp = function () {
         }
     };
 
+    var _getIndexOfCurrentRecipe = function(currentRecipe) {
+        var $clickedRecipe = $(currentRecipe).closest('.recipe');
+        var id = $clickedRecipe.data().id;
+        var recipe = _getRecipeById(id);
+        return recipes.indexOf(recipe);
+    }
 
+    var createIngredients = function(currentRecipe, name){
+        var index = _getIndexOfCurrentRecipe(currentRecipe);
+        recipes[index].ingredients.push({name: name});
+    };
 
 
     var createIngredients = function(name, recipeID){
         //add code
-        const recipe = _getRecipeById(recipeID);
-        recipe.ingredients.push({name: name});
+        var index = _getIndexOfCurrentRecipe(currentRecipe);
+        recipes[index].ingredients.push({name: name});
     };
 
     var _getIngredientsHTML = function(recipe){
