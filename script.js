@@ -1,16 +1,16 @@
 var RecipeApp = function () {
 
     var recipes = [
-        // { 
-        //     id: 1,
-        //     name: 'Best Chicken Soup!', 
-        //     image: 'https://static01.nyt.com/images/2016/11/29/dining/recipelab-chick-noodle-still/recipelab-chick-noodle-still-master675.jpg',
-        //     ingredients: [
-        //         { name: 'whole chicken' },
-        //         { name: 'medium carrots'},
-        //         { name: 'onions' },
-        //     ] 
-        // }
+        { 
+            id: 1,
+            name: 'Best Chicken Soup!', 
+            image: 'https://static01.nyt.com/images/2016/11/29/dining/recipelab-chick-noodle-still/recipelab-chick-noodle-still-master675.jpg',
+            ingredients: [
+                { name: 'whole chicken' },
+                { name: 'medium carrots'},
+                { name: 'onions' },
+            ] 
+        }
     ];
 
     var $recipes = $('.recipes');
@@ -35,12 +35,30 @@ var RecipeApp = function () {
         recipes.push(recipe);
     };
 
-    var createIngredients = function(){
+
+    var _getRecipeById =  function(id) {
+        for (var i = 0; i < recipe.length; i++) {
+            if (recipes[i].id ===id) {
+                return recipes[i];
+            }
+         }
+        }
+    };
+
+
+
+
+    var createIngredients = function(name, recipeID){
         //add code
+        const recipe = _getRecipeById(recipeID);
+        recipe.ingredients.push({name: name});
     };
 
     var _getIngredientsHTML = function(recipe){
         var recipesHTML = "";
+        for (let i = 0; i < recipe.ingredients.length; i++) {
+            recipesHTML += '<li>' + recipe.ingredients[i].name + '</li>';
+        }
 
         //add code
         return recipesHTML;
@@ -79,9 +97,8 @@ var RecipeApp = function () {
     return {
         createRecipe: createRecipe,
         renderRecipes: renderRecipes,
-        // createIngredients: createIngredients,
-    }
-};
+        createIngredients: createIngredients
+    };
 
 var app = RecipeApp();
 
@@ -99,3 +116,8 @@ $('.add-recipe').on('click', function(){
     app.renderRecipes();
 });
 
+$('.recipes').on('click', '.add-ingredients', function () {
+    var name = $(this).closest('.recipe').find('.new-ingredirnt').val();
+    app.createIngredients(this, name);
+    app.renderRecipes();
+})
